@@ -19,7 +19,7 @@ import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
   { title: 'Dashboard', href: route('dashboard'), icon: LayoutGrid },
-  { title: 'Service', href: route('service.index'), icon: LayoutGrid },
+  { title: 'Service', href: route('services.index'), icon: LayoutGrid },
 ];
 
 const footerNavItems: NavItem[] = [

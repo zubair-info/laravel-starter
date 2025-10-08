@@ -14,7 +14,7 @@ declare module 'vite/client' {
 }
 
 declare module '@inertiajs/core' {
-    interface PageProps extends InertiaPageProps, AppPageProps {}
+    interface PageProps extends InertiaPageProps, AppPageProps { }
 }
 
 declare module 'vue' {
@@ -22,5 +22,11 @@ declare module 'vue' {
         $inertia: typeof Router;
         $page: Page;
         $headManager: ReturnType<typeof createHeadManager>;
+        $hasRole(role: string): boolean;
+        $hasAnyRole(roles: string[]): boolean;
+        $hasPermission(permission: string): boolean;
+
+        // Optional: global route helper
+        $route: typeof import('ziggy-js').route;
     }
 }
