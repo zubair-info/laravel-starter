@@ -31,7 +31,7 @@ class ServiceController extends Controller
     {
         $records = $this->repo->all();
         // Return all services to Vue page
-        return Inertia::render('Admin/Service/Index', [
+        return Inertia::render('admin/service/index', [
             'services' => $records,
         ]);
     }
@@ -43,7 +43,12 @@ class ServiceController extends Controller
     {
         $data = $request->validate($this->validationRules);
         $service = $this->repo->create($data);
-
+// return response()->json(
+//     [
+//         'status'=>'success',
+//         'success'=>true
+//     ]
+// );
         return redirect()->route('services.index')
             ->with('success', 'Service created successfully.');
     }

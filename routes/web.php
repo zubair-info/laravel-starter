@@ -30,8 +30,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return inertia('Dashboard');
     })->middleware('check.permission:view.dashboard')->name('dashboard');
 
-    Route::prefix('admin')->middleware('check.permission:manage users')->group(function () {
-        Route::resource('roles', RoleController::class);
+    // Route::prefix('admin')->name('admin.')->group(function () {
+    //     Route::resource('roles', RoleController::class);
+    // });
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('roles', [App\Http\Controllers\Admin\RolePermissionController::class, 'index'])->name('roles.index');
+
+        Route::post('roles', [App\Http\Controllers\Admin\RolePermissionController::class, 'storeRole'])->name('roles.store');
+        Route::post('permissions', [App\Http\Controllers\Admin\RolePermissionController::class, 'storePermission'])->name('permissions.store');
+
+        Route::put('roles/{id}', [App\Http\Controllers\Admin\RolePermissionController::class, 'updateRole'])->name('roles.update');
+        Route::delete('roles/{id}', [App\Http\Controllers\Admin\RolePermissionController::class, 'deleteRole'])->name('roles.destroy');
+        Route::delete('permissions/{id}', [App\Http\Controllers\Admin\RolePermissionController::class, 'deletePermission'])->name('permissions.destroy');
     });
 });
 

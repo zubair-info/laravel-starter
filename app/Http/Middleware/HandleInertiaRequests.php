@@ -46,14 +46,19 @@ class HandleInertiaRequests extends Middleware
             //     'user' => $request->user(),
             // ],
             'auth' => [
-                'user' => [
+                'user' => $request->user() ? [
                     'id' => $request->user()->id,
                     'name' => $request->user()->name,
                     'email' => $request->user()->email,
-                    'roles' => $request->user()->getRoleNames(), // Spatie roles
+                    'roles' => $request->user()->getRoleNames(),
                     'permissions' => $request->user()->getAllPermissions()->pluck('name'),
-                ],
+                ] : null,
             ],
+            // 'ziggy' => function () use ($request) {
+            //     return array_merge((new Ziggy)->toArray(), [
+            //         'location' => $request->url(),
+            //     ]);
+            // },
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
 
 

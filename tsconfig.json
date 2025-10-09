@@ -119,8 +119,11 @@
     },
     "include": [
         "resources/js/**/*.ts",
+        "resources/js/**/*.js",
         "resources/js/**/*.d.ts",
-        "resources/js/**/*.tsx", 
+        "resources/js/**/*.d.js",
+        "resources/js/**/*.tsx",
+        "resources/js/**/*.jsx",
         "resources/js/**/*.vue"
-    ]
+, "resources/js/app.js", "resources/js/composables/useAuth .js"    ]
 }
