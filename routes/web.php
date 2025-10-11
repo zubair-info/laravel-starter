@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\UserRolePermissionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -28,7 +29,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->only(['index', 'store', 'update', 'destroy']);
     Route::get('/dashboard', function () {
         return inertia('Dashboard');
-    })->middleware('check.permission:view.dashboard')->name('dashboard');
+    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return inertia('Dashboard');
+    // })->middleware('check.permission:view.dashboard')->name('dashboard');
 
     // Route::prefix('admin')->name('admin.')->group(function () {
     //     Route::resource('roles', RoleController::class);
@@ -42,6 +46,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('roles/{id}', [App\Http\Controllers\Admin\RolePermissionController::class, 'updateRole'])->name('roles.update');
         Route::delete('roles/{id}', [App\Http\Controllers\Admin\RolePermissionController::class, 'deleteRole'])->name('roles.destroy');
         Route::delete('permissions/{id}', [App\Http\Controllers\Admin\RolePermissionController::class, 'deletePermission'])->name('permissions.destroy');
+        Route::get('user-role-permission', [UserRolePermissionController::class, 'index'])->name('user.role.permission.index');
+        Route::post('user/{user}/assign-role', [UserRolePermissionController::class, 'assignRole'])->name('user.assign.role');
+        Route::post('user/{user}/assign-permission', [UserRolePermissionController::class, 'assignPermission'])->name('user.assign.permission');
+        Route::delete('user/{user}/role/{role}', [UserRolePermissionController::class, 'removeRole'])->name('user.remove.role');
+        Route::delete('user/{user}/permission/{permission}', [UserRolePermissionController::class, 'removePermission'])->name('user.remove.permission');
+        Route::delete('/admin/user/{user}/remove-all', [UserRolePermissionController::class, 'removeAllAssignments'])
+            ->name('admin.user.remove.all');
     });
 });
 

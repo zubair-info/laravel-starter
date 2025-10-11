@@ -5,6 +5,8 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { route } from 'ziggy-js'
 import { usePage } from '@inertiajs/vue3'
 import { InertiaProgress } from '@inertiajs/progress'
+import PrimeVue from 'primevue/config';
+import Aura from '@primeuix/themes/aura';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
@@ -26,7 +28,17 @@ createInertiaApp({
         vueApp.config.globalProperties.$hasRole = role => user?.roles?.includes(role)
         vueApp.config.globalProperties.$hasAnyRole = roles => roles.some(r => user?.roles?.includes(r))
         vueApp.config.globalProperties.$hasPermission = perm => user?.permissions?.includes(perm)
-
+        vueApp.use(PrimeVue, {
+            // Default theme configuration
+            theme: {
+                preset: Aura,
+                options: {
+                    prefix: 'p',
+                    darkModeSelector: 'system',
+                    cssLayer: false
+                }
+            }
+        });
         vueApp.use(plugin).mount(el)
     },
 })
