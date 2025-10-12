@@ -27,11 +27,11 @@ function deletePermission(permission) { if (confirm(`Delete permission ${permiss
 
     <Head title="Roles & Permissions" />
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="p-4 space-y-6">
+        <div class="">
             <!-- Roles Section -->
             <div>
                 <h2 class="font-bold mb-2">Roles</h2>
-                <button @click="openCreateRoleModal" class="px-4 py-2 bg-blue-600 text-white rounded mb-2">Add
+                <button @click="openCreateRoleModal" size="small" class="px-2 py-1 bg-blue-600 text-white rounded mb-2">Add
                     Role</button>
                 <table class="w-full border border-gray-300">
                     <thead>
@@ -61,7 +61,7 @@ function deletePermission(permission) { if (confirm(`Delete permission ${permiss
             <!-- Permissions Section -->
             <div>
                 <h2 class="font-bold mb-2">Permissions</h2>
-                <button @click="openCreatePermissionModal" class="px-4 py-2 bg-green-600 text-white rounded mb-2">Add
+                <button @click="openCreatePermissionModal" size="small" class="px-2 py-1 bg-green-600 text-white rounded mb-2">Add
                     Permission</button>
                 <table class="w-full border border-gray-300">
                     <thead>

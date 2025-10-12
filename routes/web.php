@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserRolePermissionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,7 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->only(['index', 'store', 'update', 'destroy']);
     Route::get('/dashboard', function () {
         return inertia('Dashboard');
-    })->name('dashboard');
+    })->middleware('check.permission:view.dashboard')->name('dashboard');
     // Route::get('/dashboard', function () {
     //     return inertia('Dashboard');
     // })->middleware('check.permission:view.dashboard')->name('dashboard');
@@ -37,7 +38,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route::prefix('admin')->name('admin.')->group(function () {
     //     Route::resource('roles', RoleController::class);
     // });
-    Route::prefix('admin')->name('admin.')->group(function () {
+    Route::prefix('admin')->name('admin.')->middleware('check.permission:roles')->group(function () {
+        Route::resource('users', UserController::class);
+        Route::post('users/{user}/toggle-active', [UserController::class, 'toggleActive'])->name('users.toggleActive');
         Route::get('roles', [App\Http\Controllers\Admin\RolePermissionController::class, 'index'])->name('roles.index');
 
         Route::post('roles', [App\Http\Controllers\Admin\RolePermissionController::class, 'storeRole'])->name('roles.store');
@@ -52,7 +55,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('user/{user}/role/{role}', [UserRolePermissionController::class, 'removeRole'])->name('user.remove.role');
         Route::delete('user/{user}/permission/{permission}', [UserRolePermissionController::class, 'removePermission'])->name('user.remove.permission');
         Route::delete('/admin/user/{user}/remove-all', [UserRolePermissionController::class, 'removeAllAssignments'])
-            ->name('admin.user.remove.all');
+            ->name('user.remove.all');
+
     });
 });
 

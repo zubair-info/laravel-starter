@@ -18,9 +18,10 @@ class RolesAndPermissionsSeeder extends Seeder
         $viewDashboard = Permission::firstOrCreate(['name' => 'view.dashboard']);
         $manageUsers = Permission::firstOrCreate(['name' => 'manage.users']);
         $editProfile = Permission::firstOrCreate(['name' => 'edit.profile']);
+        $roles = Permission::firstOrCreate(['name' => 'roles']);
 
-        $admin->syncPermissions([$viewDashboard, $manageUsers, $editProfile]);
-        $editor->syncPermissions([$viewDashboard, $editProfile]);
+        $admin->syncPermissions([$viewDashboard, $manageUsers, $editProfile,$roles]);
+        $editor->syncPermissions([$viewDashboard, $editProfile,$roles]);
         $viewer->syncPermissions([$viewDashboard]);
 
         User::all()->each(function($user) use ($admin) {

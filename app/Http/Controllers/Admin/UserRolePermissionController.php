@@ -53,7 +53,6 @@ class UserRolePermissionController extends Controller
     }
     public function removeAllAssignments(User $user)
     {
-        dd($user);
         // Remove all roles
         $user->syncRoles([]);
 

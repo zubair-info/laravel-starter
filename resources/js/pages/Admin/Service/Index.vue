@@ -5,6 +5,9 @@ import { Head } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 
+import ToggleSwitch from 'primevue/toggleswitch';
+
+
 const props = defineProps({
     services: Array
 });
@@ -72,7 +75,8 @@ function deleteService(service) {
     <Head title="Services" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="p-4">
+        <ToggleSwitch v-model="checked" />
+        <div class="">
             <button @click="openCreateModal" class="px-4 py-2 bg-blue-600 text-white rounded">
                 Add Service
             </button>

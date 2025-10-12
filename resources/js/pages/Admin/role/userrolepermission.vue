@@ -3,8 +3,9 @@ import { ref, reactive } from 'vue'
 import { router } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import MultiSelect from 'primevue/multiselect'
-// import { useToast } from 'vue-toastification'
-// const toast = useToast()
+import { useToast } from 'primevue/usetoast'
+
+const toast = useToast()
 
 const props = defineProps({
     users: Array,
@@ -27,8 +28,22 @@ function updateUserRoles(user) {
     router.post(route('admin.user.assign.role', user.id), {
         roles: selectedRoles[user.id] || []
     }, {
-        onSuccess: () => alert(`✅ Roles updated for ${user.name}`),
-        onError: (errors) => alert(Object.values(errors).join(', '))
+        onSuccess: () => {
+            toast.add({
+                severity: 'success',
+                summary: 'Roles Updated',
+                detail: `Roles updated for ${user.name}`,
+                life: 3000
+            })
+        },
+        onError: (errors) => {
+            toast.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: Object.values(errors).join(', '),
+                life: 3000
+            })
+        }
     })
 }
 
@@ -37,8 +52,22 @@ function updateUserPermissions(user) {
     router.post(route('admin.user.assign.permission', user.id), {
         permissions: selectedPermissions[user.id] || []
     }, {
-        onSuccess: () => alert(`✅ Permissions updated for ${user.name}`),
-        onError: (errors) => alert(Object.values(errors).join(', '))
+        onSuccess: () => {
+            toast.add({
+                severity: 'success',
+                summary: 'Permissions Updated',
+                detail: `Permissions updated for ${user.name}`,
+                life: 3000
+            })
+        },
+        onError: (errors) => {
+            toast.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: Object.values(errors).join(', '),
+                life: 3000
+            })
+        }
     })
 }
 
@@ -49,6 +78,20 @@ function removeUserRole(user, roleId) {
         onSuccess: () => {
             user.roles = user.roles.filter(r => r.id !== roleId)
             selectedRoles[user.id] = selectedRoles[user.id].filter(id => id !== roleId)
+            toast.add({
+                severity: 'warn',
+                summary: 'Role Removed',
+                detail: `Role removed from ${user.name}`,
+                life: 3000
+            })
+        },
+        onError: (errors) => {
+            toast.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: Object.values(errors).join(', '),
+                life: 3000
+            })
         }
     })
 }
@@ -60,6 +103,20 @@ function removeUserPermission(user, permissionId) {
         onSuccess: () => {
             user.permissions = user.permissions.filter(p => p.id !== permissionId)
             selectedPermissions[user.id] = selectedPermissions[user.id].filter(id => id !== permissionId)
+            toast.add({
+                severity: 'warn',
+                summary: 'Permission Removed',
+                detail: `Permission removed from ${user.name}`,
+                life: 3000
+            })
+        },
+        onError: (errors) => {
+            toast.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: Object.values(errors).join(', '),
+                life: 3000
+            })
         }
     })
 }
@@ -71,20 +128,34 @@ function removeAllUserAssignments(user) {
     router.delete(route('admin.user.remove.all', user.id), {
         preserveScroll: true,
         onSuccess: () => {
-            user.roles.splice(0, user.roles.length);
-            user.permissions.splice(0, user.permissions.length);
-            selectedRoles[user.id] = [];
-            selectedPermissions[user.id] = [];
-            toast.success(`All roles and permissions removed from ${user.name}`);
-        },
-    });
-}
+            user.roles.splice(0, user.roles.length)
+            user.permissions.splice(0, user.permissions.length)
+            selectedRoles[user.id] = []
+            selectedPermissions[user.id] = []
 
+            toast.add({
+                severity: 'warn',
+                summary: 'Removed All',
+                detail: `All roles and permissions removed from ${user.name}`,
+                life: 3000
+            })
+        },
+        onError: (errors) => {
+            toast.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: Object.values(errors).join(', '),
+                life: 3000
+            })
+        }
+    })
+}
 </script>
+
 
 <template>
     <AppLayout>
-        <div class="p-6">
+        <div class="">
             <h1 class="text-2xl font-bold mb-4">Assign Roles & Permissions to Users</h1>
 
             <table class="w-full border border-gray-300">
@@ -114,8 +185,11 @@ function removeAllUserAssignments(user) {
                             <!-- ✅ MultiSelect per user -->
                             <MultiSelect v-model="selectedRoles[user.id]" :options="props.roles" optionLabel="name"
                                 optionValue="id" placeholder="Select Roles" class="w-full md:w-80" />
-                            <button @click="updateUserRoles(user)"
-                                class="mt-1 bg-blue-600 text-white px-2 py-1 rounded text-sm">Save</button>
+                            <div>
+                                <button @click="updateUserRoles(user)"
+                                    class="mt-1 bg-blue-600 text-white px-2 py-1 rounded text-sm">Save</button>
+                            </div>
+
                         </td>
 
                         <!-- ✅ Permissions -->
@@ -145,7 +219,7 @@ function removeAllUserAssignments(user) {
 
                         <!-- ✅ Remove All -->
                         <td class="p-2 border text-center">
-                            <button @click="removeAllUserAssignments(user.id)"
+                            <button @click="removeAllUserAssignments(user)"
                                 class="bg-red-600 text-white text-xs px-2 py-1 rounded">Remove All</button>
                         </td>
                     </tr>

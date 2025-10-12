@@ -7,6 +7,8 @@ import { usePage } from '@inertiajs/vue3'
 import { InertiaProgress } from '@inertiajs/progress'
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
+import ToastService from 'primevue/toastservice'
+import Toast from 'primevue/toast'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
@@ -39,6 +41,11 @@ createInertiaApp({
                 }
             }
         });
+        // Toast service must be added
+        vueApp.use(ToastService)
+
+        // Register Toast component globally
+        vueApp.component('Toast', Toast)
         vueApp.use(plugin).mount(el)
     },
 })
