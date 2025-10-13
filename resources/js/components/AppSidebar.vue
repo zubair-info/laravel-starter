@@ -5,6 +5,7 @@ import type { NavItem } from '@/types';
 import NavMain from '@/components/NavMain.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavUser from '@/components/NavUser.vue';
+import { onMounted } from 'vue';
 import {
     Sidebar,
     SidebarContent,
@@ -18,38 +19,49 @@ import { Link } from '@inertiajs/vue3';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
-  { title: 'Dashboard', href: route('dashboard'), icon: LayoutGrid },
-  { title: 'Service', href: route('service.index'), icon: LayoutGrid },
+    { title: 'Dashboard', href: route('dashboard'), icon: LayoutGrid},
+    { title: 'All Users', href: route('admin.users.index'), icon: LayoutGrid},
+    {
+        title: 'Roles',
+        icon: LayoutGrid,
+        children: [
+            { title: 'All Roles', href: route('admin.roles.index') },
+            { title: 'Assign Roles', href: route('admin.user.role.permission.index') },
+        ]
+    },
+    { title: 'Service', href: route('services.index'), icon: LayoutGrid },
+
+
 ];
 
 const footerNavItems: NavItem[] = [
-  { title: 'Github Repo', href: 'https://github.com/laravel/vue-starter-kit', icon: Folder },
-  { title: 'Documentation', href: 'https://laravel.com/docs/starter-kits#vue', icon: BookOpen },
+    { title: 'Github Repo', href: 'https://github.com/laravel/vue-starter-kit', icon: Folder },
+    { title: 'Documentation', href: 'https://laravel.com/docs/starter-kits#vue', icon: BookOpen },
 ];
 </script>
 
 <template>
-  <Sidebar collapsible="icon" variant="inset">
-    <SidebarHeader>
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton size="lg" as-child>
-            <Link :href="route('dashboard', {})">
-              <AppLogo />
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    </SidebarHeader>
+    <Sidebar collapsible="icon" variant="inset">
+        <SidebarHeader>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton size="lg" as-child>
+                        <Link :href="route('dashboard', {})" prefetch>
+                        <AppLogo />
+                        </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarMenu>
+        </SidebarHeader>
 
-    <SidebarContent>
-      <NavMain :items="mainNavItems" />
-    </SidebarContent>
+        <SidebarContent>
+            <NavMain :items="mainNavItems" />
+        </SidebarContent>
 
-    <SidebarFooter>
-      <NavFooter :items="footerNavItems" />
-      <NavUser />
-    </SidebarFooter>
-  </Sidebar>
-  <slot />
+        <SidebarFooter>
+            <NavFooter :items="footerNavItems" />
+            <NavUser />
+        </SidebarFooter>
+    </Sidebar>
+    <slot />
 </template>
