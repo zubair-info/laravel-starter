@@ -15,7 +15,7 @@ class ServiceController extends Controller
     protected array $validationRules = [
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
-        'icon' => 'nullable|string|max:255',
+        // 'service_icons' => 'nullable|image|max:2048',
         'link' => 'nullable|string|max:255',
     ];
 
@@ -29,7 +29,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $records = $this->repo->all();
+        $records =Service::get();
         // Return all services to Vue page
         return Inertia::render('admin/service/index', [
             'services' => $records,
@@ -42,14 +42,13 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate($this->validationRules);
+        //  dd($request->hasFile('service_icons'));
         $service = $this->repo->create($data);
-// return response()->json(
-//     [
-//         'status'=>'success',
-//         'success'=>true
-//     ]
-// );
-        return redirect()->route('services.index')
+        if ($request->hasFile('service_icons')) {
+
+            $service->addMediaFromRequest('service_icons')->toMediaCollection('service_icons');
+        }
+        return redirect()->route('admin.services.index')
             ->with('success', 'Service created successfully.');
     }
 
@@ -60,14 +59,18 @@ class ServiceController extends Controller
     {
         $data = $request->validate($this->validationRules);
 
-        $updated = $this->repo->update($id, $data);
+        $service = $this->repo->update($id, $data);
 
-        if (!$updated) {
-            return redirect()->route('services.index')
+        if (!$service) {
+            return redirect()->route('admin.services.index')
                 ->with('error', 'Service not found.');
         }
+        if ($request->hasFile('service_icons')) {
+            $service->clearMediaCollection('service_icons');
+            $service->addMediaFromRequest('service_icons')->toMediaCollection('service_icons');
+        }
 
-        return redirect()->route('services.index')
+        return redirect()->route('admin.services.index')
             ->with('success', 'Service updated successfully.');
     }
 
@@ -83,7 +86,7 @@ class ServiceController extends Controller
                 ->with('error', 'Service not found.');
         }
 
-        return redirect()->route('services.index')
+        return redirect()->route('admin.services.index')
             ->with('success', 'Service deleted successfully.');
     }
 
@@ -95,7 +98,7 @@ class ServiceController extends Controller
         $service = $this->repo->find($id);
 
         if (!$service) {
-            return redirect()->route('services.index')
+            return redirect()->route('adminservices.index')
                 ->with('error', 'Service not found.');
         }
 

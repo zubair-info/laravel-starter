@@ -3,29 +3,68 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Models\User;
 
-class RolesAndPermissionsSeeder extends Seeder
+class RolePermissionSeeder extends Seeder
 {
     public function run()
     {
-        $admin = Role::firstOrCreate(['name' => 'admin']);
-        $editor = Role::firstOrCreate(['name' => 'editor']);
-        $viewer = Role::firstOrCreate(['name' => 'viewer']);
+        // Define roles and their permissions
+        $rolesPermissions = [
+            'admin' => [
+                'hero.view',
+                'hero.create',
+                'hero.edit',
+                'hero.delete',
+                'user.view',
+                'user.create',
+                'user.edit',
+                'user.delete',
+            ],
+            'editor' => [
+                'hero.view',
+                'hero.create',
+                'hero.edit',
+            ],
+            'user' => [
+                'hero.view',
+            ],
+        ];
 
-        $viewDashboard = Permission::firstOrCreate(['name' => 'view.dashboard']);
-        $manageUsers = Permission::firstOrCreate(['name' => 'manage.users']);
-        $editProfile = Permission::firstOrCreate(['name' => 'edit.profile']);
-        $roles = Permission::firstOrCreate(['name' => 'roles']);
+        // Collect all unique permissions
+        $allPermissions = [];
+        foreach ($rolesPermissions as $permissions) {
+            $allPermissions = array_merge($allPermissions, $permissions);
+        }
+        $allPermissions = array_unique($allPermissions);
 
-        $admin->syncPermissions([$viewDashboard, $manageUsers, $editProfile,$roles]);
-        $editor->syncPermissions([$viewDashboard, $editProfile,$roles]);
-        $viewer->syncPermissions([$viewDashboard]);
+        // Create permissions
+        foreach ($allPermissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
 
-        User::all()->each(function($user) use ($admin) {
-            $user->assignRole($admin);
-        });
+        // Create roles and assign permissions
+        foreach ($rolesPermissions as $roleName => $permissions) {
+            $role = Role::firstOrCreate(['name' => $roleName]);
+            $role->syncPermissions($permissions);
+        }
+
+        // Assign roles to specific users
+        $userRoles = [
+            'admin@example.com' => 'admin',
+            'editor@example.com' => 'editor',
+            'user@example.com' => 'user',
+        ];
+
+        foreach ($userRoles as $email => $roleName) {
+            $user = User::where('email', $email)->first();
+            if ($user) {
+                $user->assignRole($roleName);
+            }
+        }
+
+        $this->command->info('Roles, permissions, and user assignments seeded successfully!');
     }
 }

@@ -7,21 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Service extends Model implements HasMedia
+class Portfolio extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
         'title',
         'description',
-        'icon',
         'link',
     ];
 
-    protected $appends = ['service_icons'];
+    protected $appends = ['image_url'];
 
-    public function getServiceIconsAttribute()
+    // Return the first media image URL
+    public function getImageUrlAttribute()
     {
-        return $this->getFirstMediaUrl('service_icons');
+        $media = $this->getFirstMedia('portfolio_images');
+        return $media ? $media->getUrl() : null;
     }
 }

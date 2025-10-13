@@ -19,8 +19,8 @@ import { Link } from '@inertiajs/vue3';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
-    { title: 'Dashboard', href: route('dashboard'), icon: LayoutGrid},
-    { title: 'All Users', href: route('admin.users.index'), icon: LayoutGrid},
+    { title: 'Dashboard', href: route('dashboard'), icon: LayoutGrid },
+    { title: 'All Users', href: route('admin.users.index'), icon: LayoutGrid },
     {
         title: 'Roles',
         icon: LayoutGrid,
@@ -29,7 +29,13 @@ const mainNavItems: NavItem[] = [
             { title: 'Assign Roles', href: route('admin.user.role.permission.index') },
         ]
     },
-    { title: 'Service', href: route('services.index'), icon: LayoutGrid },
+    { title: 'Hero', href: route('admin.hero.index'), icon: LayoutGrid },
+    { title: 'Service', href: route('admin.services.index'), icon: LayoutGrid },
+    { title: 'About', href: route('admin.about.index'), icon: LayoutGrid },
+    { title: 'Educations', href: route('admin.educations.index'), icon: LayoutGrid },
+    { title: 'Skills', href: route('admin.skills.index'), icon: LayoutGrid },
+    { title: 'Experiences', href: route('admin.educations.index'), icon: LayoutGrid },
+    { title: 'Pricings', href: route('admin.pricings.index'), icon: LayoutGrid },
 
 
 ];

@@ -1,7 +1,15 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\EducationController;
+use App\Http\Controllers\Admin\ExperienceController;
+use App\Http\Controllers\Admin\HeroSectionController;
+use App\Http\Controllers\Admin\PortfolioController;
+use App\Http\Controllers\Admin\PricingController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Admin\SpecialtyController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserRolePermissionController;
 use Illuminate\Support\Facades\Route;
@@ -26,8 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //     'update' => 'services.update',
     //     'destroy' => 'services.destroy',
     // ]);
-    Route::resource('services', ServiceController::class)
-        ->only(['index', 'store', 'update', 'destroy']);
+
     Route::get('/dashboard', function () {
         return inertia('Dashboard');
     })->middleware('check.permission:view.dashboard')->name('dashboard');
@@ -57,6 +64,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/admin/user/{user}/remove-all', [UserRolePermissionController::class, 'removeAllAssignments'])
             ->name('user.remove.all');
 
+        Route::get('/hero', [HeroSectionController::class, 'index'])->name('hero.index');
+        Route::get('/hero/create', [HeroSectionController::class, 'create'])->name('hero.create');
+        Route::post('/hero', [HeroSectionController::class, 'store'])->name('hero.store');
+        Route::get('/hero/{hero}/edit', [HeroSectionController::class, 'edit'])->name('hero.edit');
+        Route::put('/hero/{hero}', [HeroSectionController::class, 'update'])->name('hero.update');
+        Route::delete('/hero/{hero}', [HeroSectionController::class, 'destroy'])->name('hero.destroy');
+
+        Route::resource('services', ServiceController::class);
+        Route::resource('specialties', SpecialtyController::class);
+        Route::resource('about', AboutController::class);
+        Route::resource('experiences', ExperienceController::class);
+        Route::resource('educations', EducationController::class);
+        Route::resource('skills', SkillController::class);
+        Route::resource('pricings', PricingController::class);
+         Route::resource('portfolios', PortfolioController::class);
     });
 });
 

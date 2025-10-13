@@ -1,71 +1,90 @@
 <script setup>
 import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router } from '@inertiajs/vue3'
 import { Head } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
+import { route } from 'ziggy-js'
+import { useToast } from 'primevue/usetoast'
 
-import ToggleSwitch from 'primevue/toggleswitch';
+const toast = useToast()
+
 
 
 const props = defineProps({
     services: Array
-});
+})
 
-const breadcrumbs = [
-    { title: 'Service', href: route('services.index') }
-];
+const isModalOpen = ref(false)
+const editingService = ref(null)
+const preview = ref(null)
+const form = ref(null)
 
-const isModalOpen = ref(false);
-const editingService = ref(null);
-const form = ref(null);
-
-// Open modal for creating a new service
 function openCreateModal() {
-    editingService.value = null;
+    editingService.value = null
     form.value = useForm({
         title: '',
         description: '',
-        icon: '',
+        service_icons: null, // ✅ file field
         link: ''
-    });
-    isModalOpen.value = true;
+    })
+    preview.value = null
+    isModalOpen.value = true
 }
 
-// Open modal for editing an existing service
 function openEditModal(service) {
-    editingService.value = service;
-    form.value = useForm({ ...service });
-    isModalOpen.value = true;
+    editingService.value = service
+    form.value = useForm({
+        ...service,
+    })
+    preview.value = service.service_icons ?? null // if you have image URL in DB
+    isModalOpen.value = true
 }
 
-// Close modal and reset form
-function closeModal() {
-    isModalOpen.value = false;
-    editingService.value = null;
-    form.value = null;
+function onFileChange(e) {
+    const file = e.target.files[0]
+    if (!file) return
+    form.value.service_icons = file
+
+    const reader = new FileReader()
+    reader.onload = (event) => preview.value = event.target.result
+    reader.readAsDataURL(file)
 }
 
-// Save service (create or update)
 function saveService() {
-    if (!form.value) return;
-
     const url = editingService.value
-        ? route('services.update', editingService.value.id)
-        : route('services.store');
+        ? route('admin.services.update', editingService.value.id)
+        : route('admin.services.store')
 
-    const method = editingService.value ? 'put' : 'post';
+    const method = editingService.value ? 'post' : 'post' // Laravel method spoofing used for PUT
 
-    form.value[method](url, {
-        onSuccess: () => closeModal(),
-        onError: errors => console.log(errors)
-    });
+    const formData = new FormData()
+    formData.append('_method', editingService.value ? 'PUT' : 'POST') // 🔑 important for PUT requests
+    formData.append('title', form.value.title)
+    formData.append('description', form.value.description)
+    formData.append('link', form.value.link ?? '')
+    if (form.value.service_icons) {
+        formData.append('service_icons', form.value.service_icons)
+    }
+    router.post(url, formData, {
+        forceFormData: true,
+        onSuccess: () => {
+            isModalOpen.value = false
+            toast.add({
+                severity: 'success',
+                summary: 'Updated',
+                detail: 'successfully' ,
+                life: 3000
+            })
+        },
+        onError: (errors) => {
+            console.log(errors)
+        }
+    })
 }
-
-// Delete a service
 function deleteService(service) {
     if (confirm('Are you sure you want to delete this service?')) {
-        useForm().delete(route('services.destroy', service.id));
+        useForm().delete(route('admin.services.destroy', service.id));
     }
 }
 </script>
@@ -74,8 +93,7 @@ function deleteService(service) {
 
     <Head title="Services" />
 
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <ToggleSwitch v-model="checked" />
+    <AppLayout>
         <div class="">
             <button @click="openCreateModal" class="px-4 py-2 bg-blue-600 text-white rounded">
                 Add Service
@@ -85,7 +103,7 @@ function deleteService(service) {
                 <thead>
                     <tr class="bg-gray-100">
                         <th class="p-2 border">Title</th>
-                        <th class="p-2 border">Description</th>
+                        <th class="p-2 border">Sub Title</th>
                         <th class="p-2 border">Icon</th>
                         <th class="p-2 border">Link</th>
                         <th class="p-2 border">Actions</th>
@@ -95,7 +113,11 @@ function deleteService(service) {
                     <tr v-for="service in props.services" :key="service.id">
                         <td class="p-2 border">{{ service.title }}</td>
                         <td class="p-2 border">{{ service.description }}</td>
-                        <td class="p-2 border">{{ service.icon }}</td>
+                        <td class="border p-2">
+                            <img v-if="service.service_icons" :src="service.service_icons" alt="Hero Image"
+                                class="w-32 h-16 object-cover rounded mt-2" />
+                            <span v-else class="text-gray-400">No Image</span>
+                        </td>
                         <td class="p-2 border">{{ service.link }}</td>
                         <td class="p-2 border">
                             <button @click="openEditModal(service)" class="px-2 py-1 bg-yellow-500 text-white rounded">
@@ -110,7 +132,6 @@ function deleteService(service) {
                 </tbody>
             </table>
         </div>
-
         <!-- Modal -->
         <TransitionRoot :show="isModalOpen" as="div" appear>
             <Dialog as="div" class="relative z-10" @close="closeModal">
@@ -135,8 +156,11 @@ function deleteService(service) {
                                         class="w-full border rounded p-2" />
                                     <textarea v-model="form.description" placeholder="Description"
                                         class="w-full border rounded p-2"></textarea>
-                                    <input v-model="form.icon" type="text" placeholder="Icon"
-                                        class="w-full border rounded p-2" />
+                                    <!-- <input v-model="form.icon" type="text" placeholder="Icon"
+                                        class="w-full border rounded p-2" /> -->
+                                    <input type="file" @change="onFileChange" class="border p-2 w-full" />
+                                    <img v-if="preview" :src="preview" class="w-48 h-24 object-cover rounded mt-2"
+                                        alt="Preview" />
                                     <input v-model="form.link" type="text" placeholder="Link"
                                         class="w-full border rounded p-2" />
 
