@@ -84,7 +84,7 @@ function deleteSkill(skill) {
             <Column field="name" header="Name" sortable></Column>
             <Column header="Level (%)">
                 <template #body="slotProps">
-                    <ProgressBar :value="slotProps.data.level_percent" showValue="true" />
+                    <ProgressBar :value="slotProps.data.level_percent" :showValue="true" />
                 </template>
             </Column>
             <Column header="Icon">

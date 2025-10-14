@@ -14,6 +14,10 @@ class About extends Model implements HasMedia
     protected $fillable = [
         'greeting',
         'name',
+        'email',
+        'phone',
+        'language',
+        'freelance',
         'role',
         'location',
         'description',

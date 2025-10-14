@@ -10,7 +10,7 @@ import Aura from '@primeuix/themes/aura';
 import ToastService from 'primevue/toastservice'
 import Toast from 'primevue/toast'
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
+const appName = import.meta.env.VITE_APP_NAME
 
 createInertiaApp({
     title: title => title ? `${title} - ${appName}` : appName,

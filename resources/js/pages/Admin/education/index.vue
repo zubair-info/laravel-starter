@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, watch } from 'vue';
 import { router, usePage, Head } from '@inertiajs/vue3';
-import AppLayout from '@/Layouts/AppLayout.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
 import { useToast } from 'primevue/usetoast';
 
 import DataTable from 'primevue/datatable';
@@ -17,6 +17,7 @@ const page = usePage();
 const props = defineProps({
     educations: Array
 });
+const startDate = ref(new Date());
 
 const educations = ref([]);
 watch(() => props.educations, val => educations.value = val, { immediate: true });
@@ -59,7 +60,12 @@ function addEducation() {
 }
 
 function openEditModal(education) {
-    Object.assign(editForm, { ...education });
+    Object.assign(editForm, {
+        ...education,
+        start_date: education.start_date ? new Date(education.start_date) : null,
+        end_date: education.end_date ? new Date(education.end_date) : null,
+    });
+
     showEditModal.value = true;
 }
 

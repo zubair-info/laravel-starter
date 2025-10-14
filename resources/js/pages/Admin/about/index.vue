@@ -47,6 +47,10 @@ const addForm = reactive({
     location: '',
     description: '',
     resume_link: '',
+    email: '',
+    phone: '',
+    freelance: '',
+    language: '',
     years_experience: 0,
     award_count: 0,
     client_count: 0,
@@ -65,6 +69,10 @@ const editForm = reactive({
     years_experience: 0,
     award_count: 0,
     client_count: 0,
+    email: '',
+    phone: '',
+    freelance: '',
+    language: '',
     image: null
 });
 
@@ -115,6 +123,10 @@ function openEditModal(about) {
         years_experience: about.years_experience,
         award_count: about.award_count,
         client_count: about.client_count,
+        email: about.email,
+        phone: about.phone,
+        freelance: about.freelance,
+        language: about.language,
         image: null
     });
     editPreview.value = about.image_url;
@@ -195,10 +207,14 @@ function onFileChange(event, formRef, previewRef) {
         </DataTable>
 
         <!-- Add Modal -->
-        <Dialog v-model:visible="showAddModal" header="Add About" modal :style="{ width: '50rem' }">
+        <Dialog v-model:visible="showAddModal" header="Add About" modal :style="{ width: '800px' }">
             <form @submit.prevent="addAbout" class="flex flex-col gap-3">
                 <InputText v-model="addForm.greeting" placeholder="Greeting" />
                 <InputText v-model="addForm.name" placeholder="Name" required />
+                <InputText v-model="addForm.email" placeholder="Email" required />
+                <InputText v-model="addForm.phone" placeholder="Phone" required />
+                <InputText v-model="addForm.freelance" placeholder="Freelance" required />
+                <InputText v-model="addForm.language" placeholder="Language" required />
                 <InputText v-model="addForm.role" placeholder="Role" />
                 <InputText v-model="addForm.location" placeholder="Location" />
                 <InputText v-model="addForm.description" placeholder="Description" rows="4" />
@@ -213,10 +229,14 @@ function onFileChange(event, formRef, previewRef) {
         </Dialog>
 
         <!-- Edit Modal -->
-        <Dialog v-model:visible="showEditModal" header="Edit About" modal :style="{ width: '30rem' }">
+        <Dialog v-model:visible="showEditModal" header="Edit About" modal :style="{ width: '800px' }">
             <form @submit.prevent="updateAbout" class="flex flex-col gap-3">
                 <InputText v-model="editForm.greeting" placeholder="Greeting" />
                 <InputText v-model="editForm.name" placeholder="Name" required />
+                <InputText v-model="editForm.email" placeholder="Email" required />
+                <InputText v-model="editForm.phone" placeholder="Phone" required />
+                <InputText v-model="editForm.freelance" placeholder="Freelance" required />
+                <InputText v-model="editForm.language" placeholder="language" required />
                 <InputText v-model="editForm.role" placeholder="Role" />
                 <InputText v-model="editForm.location" placeholder="Location" />
                 <InputText v-model="editForm.description" placeholder="Description" rows="4" />

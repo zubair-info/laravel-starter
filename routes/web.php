@@ -7,17 +7,20 @@ use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\Admin\PortfolioController;
 use App\Http\Controllers\Admin\PricingController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\SpecialtyController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserRolePermissionController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
+// Route::get('/', function () {
+//     return Inertia::render('Welcome');
+// })->name('home');
+ Route::get('/', [HomeController::class, 'index'])->name('home');;
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -37,7 +40,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard', function () {
         return inertia('Dashboard');
-    })->middleware('check.permission:view.dashboard')->name('dashboard');
+    })->name('dashboard');
     // Route::get('/dashboard', function () {
     //     return inertia('Dashboard');
     // })->middleware('check.permission:view.dashboard')->name('dashboard');
@@ -45,17 +48,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route::prefix('admin')->name('admin.')->group(function () {
     //     Route::resource('roles', RoleController::class);
     // });
-    Route::prefix('admin')->name('admin.')->middleware('check.permission:roles')->group(function () {
+    // Route::prefix('admin')->name('admin.')->middleware('check.permission:roles')->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('users', UserController::class);
         Route::post('users/{user}/toggle-active', [UserController::class, 'toggleActive'])->name('users.toggleActive');
-        Route::get('roles', [App\Http\Controllers\Admin\RolePermissionController::class, 'index'])->name('roles.index');
+        Route::get('roles', [RolePermissionController::class, 'index'])->name('roles.index');
 
-        Route::post('roles', [App\Http\Controllers\Admin\RolePermissionController::class, 'storeRole'])->name('roles.store');
-        Route::post('permissions', [App\Http\Controllers\Admin\RolePermissionController::class, 'storePermission'])->name('permissions.store');
+        Route::post('roles', [RolePermissionController::class, 'storeRole'])->name('roles.store');
+        Route::post('permissions', [RolePermissionController::class, 'storePermission'])->name('permissions.store');
 
-        Route::put('roles/{id}', [App\Http\Controllers\Admin\RolePermissionController::class, 'updateRole'])->name('roles.update');
-        Route::delete('roles/{id}', [App\Http\Controllers\Admin\RolePermissionController::class, 'deleteRole'])->name('roles.destroy');
-        Route::delete('permissions/{id}', [App\Http\Controllers\Admin\RolePermissionController::class, 'deletePermission'])->name('permissions.destroy');
+        Route::put('roles/{id}', [RolePermissionController::class, 'updateRole'])->name('roles.update');
+        Route::delete('roles/{id}', [RolePermissionController::class, 'deleteRole'])->name('roles.destroy');
+        Route::delete('permissions/{id}', [RolePermissionController::class, 'deletePermission'])->name('permissions.destroy');
         Route::get('user-role-permission', [UserRolePermissionController::class, 'index'])->name('user.role.permission.index');
         Route::post('user/{user}/assign-role', [UserRolePermissionController::class, 'assignRole'])->name('user.assign.role');
         Route::post('user/{user}/assign-permission', [UserRolePermissionController::class, 'assignPermission'])->name('user.assign.permission');
@@ -78,7 +82,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('educations', EducationController::class);
         Route::resource('skills', SkillController::class);
         Route::resource('pricings', PricingController::class);
-         Route::resource('portfolios', PortfolioController::class);
+        Route::resource('portfolios', PortfolioController::class);
     });
 });
 

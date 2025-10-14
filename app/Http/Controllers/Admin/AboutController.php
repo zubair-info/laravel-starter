@@ -30,6 +30,10 @@ class AboutController extends Controller
         $data = $request->validate([
             'greeting' => 'nullable|string|max:255',
             'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
+            'phone' => 'required|max:255',
+            'language' => 'required|string|max:255',
+            'freelance' => 'required|string|max:255',
             'role' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
             'description' => 'nullable|string',
@@ -38,7 +42,7 @@ class AboutController extends Controller
             'award_count' => 'nullable|integer',
             'client_count' => 'nullable|integer',
             'job_done' => 'nullable|integer',
-            'image' => 'nullable|image|max:2048', // media file
+            'image' => 'nullable|max:2048', // media file
         ]);
 
         $about = About::create($data);
@@ -59,6 +63,10 @@ class AboutController extends Controller
         $data = $request->validate([
             'greeting' => 'nullable|string|max:255',
             'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
+            'phone' => 'required|max:255',
+            'language' => 'required|string|max:255',
+            'freelance' => 'required|string|max:255',
             'role' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
             'description' => 'nullable|string',
@@ -67,7 +75,7 @@ class AboutController extends Controller
             'award_count' => 'nullable|integer',
             'client_count' => 'nullable|integer',
             'job_done' => 'nullable|integer',
-            'image' => 'nullable|image|max:2048', // media file
+            'image' => 'nullable|max:2048', // media file
         ]);
 
         $about->update($data);
