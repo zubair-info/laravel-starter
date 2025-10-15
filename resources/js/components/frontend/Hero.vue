@@ -77,7 +77,7 @@
                                 </svg>
                             </span>
                         </div>
-                        <div class="mt-5 sm:mt-0">
+                        <!-- <div class="mt-5 sm:mt-0">
                             <ul class="flex flex-wrap gap-x-4 items-center">
                                 <li><a href="#" class="text-black-800 hover:text-orange">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -110,7 +110,7 @@
                                         </svg>
                                     </a></li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

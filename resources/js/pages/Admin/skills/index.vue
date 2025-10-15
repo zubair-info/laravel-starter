@@ -2,7 +2,7 @@
 import { ref, reactive, watch } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { useToast } from 'primevue/usetoast';
-import AppLayout from '@/Layouts/AppLayout.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';

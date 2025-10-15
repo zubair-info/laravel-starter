@@ -34,10 +34,10 @@ class HomeController extends Controller
             'offcanvasLogo' => asset('assets/images/logo/offcanvas-logo.png'),
             'headerMenu' => [
                 ['label' => 'Home', 'url' => route('home')],
-                // ['label' => 'About', 'url' => route('about')],
-                // ['label' => 'Projects', 'url' => route('projects')],
+                // ['label' => 'About', 'url' => route('contact')],
+                ['label' => 'Projects', 'url' => route('projects')],
                 // ['label' => 'Blog', 'url' => route('blog')],
-                // ['label' => 'Contact', 'url' => route('contact')],
+                ['label' => 'Contact', 'url' => route('contact')],
             ],
             'socialLinks' => [
                 ['icon' => 'linkedin', 'url' => 'https://linkedin.com'],
@@ -65,9 +65,9 @@ class HomeController extends Controller
             'headerMenu' => [
                 ['label' => 'Home', 'url' => route('home')],
                 // ['label' => 'About', 'url' => route('about')],
-                // ['label' => 'Projects', 'url' => route('projects')],
+                ['label' => 'Projects', 'url' => route('projects')],
                 // ['label' => 'Blog', 'url' => route('blog')],
-                // ['label' => 'Contact', 'url' => route('contact')],
+                ['label' => 'Contact', 'url' => route('contact')],
             ],
             'socialLinks' => [
                 ['icon' => 'linkedin', 'url' => 'https://linkedin.com'],
@@ -82,20 +82,49 @@ class HomeController extends Controller
     public function projects_details($slug)
     {
         $project = Portfolio::where('slug', $slug)->first();
-         $about = About::first();
+        $about = About::first();
+        $portfolios = Portfolio::with('service')->get();
         return Inertia::render('frontend/ProjectsDetails', [
             'logo' => asset('assets/images/logo/logo.png'),
             'offcanvasLogo' => asset('assets/images/logo/offcanvas-logo.png'),
             'headerMenu' => [
                 ['label' => 'Home', 'url' => route('home')],
                 // ['label' => 'About', 'url' => route('about')],
-                // ['label' => 'Projects', 'url' => route('projects')],
+                ['label' => 'Projects', 'url' => route('projects')],
                 // ['label' => 'Blog', 'url' => route('blog')],
-                // ['label' => 'Contact', 'url' => route('contact')],
+                ['label' => 'Contact', 'url' => route('contact')],
             ],
             'project' => $project,
             'about' => $about,
+            'portfolios' => $portfolios,
 
+        ]);
+    }
+    public function projects()
+    {
+
+        $about = About::first();
+        $hero = HeroSection::first();
+        $portfolios = Portfolio::with('service')->get();
+        return Inertia::render('frontend/Projects', [
+            'logo' => asset('assets/images/logo/logo.png'),
+            'offcanvasLogo' => asset('assets/images/logo/offcanvas-logo.png'),
+            'headerMenu' => [
+                ['label' => 'Home', 'url' => route('home')],
+                // ['label' => 'About', 'url' => route('about')],
+                ['label' => 'Projects', 'url' => route('projects')],
+                // ['label' => 'Blog', 'url' => route('blog')],
+                ['label' => 'Contact', 'url' => route('contact')],
+            ],
+            'socialLinks' => [
+                ['icon' => 'linkedin', 'url' => 'https://linkedin.com'],
+                ['icon' => 'facebook', 'url' => 'https://facebook.com'],
+                ['icon' => 'twitter', 'url' => 'https://twitter.com'],
+                ['icon' => 'github', 'url' => 'https://github.com'],
+            ],
+            'about' => $about,
+            'portfolios' => $portfolios,
+            'hero' => $hero,
         ]);
     }
 }

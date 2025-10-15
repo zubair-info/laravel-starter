@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Admin\SocialLinkController;
 use App\Http\Controllers\Admin\SpecialtyController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserRolePermissionController;
@@ -22,6 +23,7 @@ use Inertia\Inertia;
 // })->name('home');
 Route::get('/', [HomeController::class, 'index'])->name('home');;
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/projects', [HomeController::class, 'projects'])->name('projects');
 Route::get('/projects-details/{slug}', [HomeController::class, 'projects_details'])->name('projects_details');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -85,6 +87,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('skills', SkillController::class);
         Route::resource('pricings', PricingController::class);
         Route::resource('portfolios', PortfolioController::class);
+        //  Route::get('/social-links', [SocialLinkController::class, 'index'])->name('social-links.index');
+        // Route::get('/social-links/create', [SocialLinkController::class, 'create'])->name('social-links.create');
+        // Route::post('/social-links', [SocialLinkController::class, 'store'])->name('social-links.store');
+        // Route::get('/social-links/{social-links}/edit', [SocialLinkController::class, 'edit'])->name('social-links.edit');
+        // Route::put('/social-links/{social-links}', [SocialLinkController::class, 'update'])->name('social-links.update');
+        // Route::delete('/social-links/{social-links}', [SocialLinkController::class, 'destroy'])->name('social-links.destroy');
+        Route::resource('social-links', SocialLinkController::class);
     });
 });
 

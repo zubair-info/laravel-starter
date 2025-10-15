@@ -35,4 +35,8 @@ class About extends Model implements HasMedia
         $media = $this->getFirstMedia('about_images');
         return $media ? $media->getUrl() : null;
     }
+    public function socialLinks()
+    {
+        return $this->hasMany(SocialLink::class);
+    }
 }
