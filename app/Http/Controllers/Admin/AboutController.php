@@ -43,6 +43,7 @@ class AboutController extends Controller
             'client_count' => 'nullable|integer',
             'job_done' => 'nullable|integer',
             'image' => 'nullable|max:2048', // media file
+            'address' => 'nullable', // media file
         ]);
 
         $about = About::create($data);
@@ -76,6 +77,7 @@ class AboutController extends Controller
             'client_count' => 'nullable|integer',
             'job_done' => 'nullable|integer',
             'image' => 'nullable|max:2048', // media file
+            'address' => 'nullable',
         ]);
 
         $about->update($data);

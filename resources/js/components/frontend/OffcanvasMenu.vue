@@ -7,7 +7,7 @@
             <a :href="route('home')">
                 <img :src="offcanvasLogo" alt="logo" />
             </a>
-            <button @click="$emit('close')" class="text-white dark:text-dark" >
+            <button @click="$emit('close')" class="text-white dark:text-dark offcanvas-close bg-primary py-7 px-[38px]" >
                 <X />
             </button>
         </div>

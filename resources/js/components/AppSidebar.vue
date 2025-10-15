@@ -37,6 +37,7 @@ const mainNavItems: NavItem[] = [
     { title: 'Skills', href: route('admin.skills.index'), icon: LayoutGrid },
     { title: 'Experiences', href: route('admin.experiences.index'), icon: LayoutGrid },
     { title: 'Pricings', href: route('admin.pricings.index'), icon: LayoutGrid },
+    { title: 'Portfolios', href: route('admin.portfolios.index'), icon: LayoutGrid },
 
 
 ];

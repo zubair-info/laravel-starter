@@ -65,6 +65,7 @@ const editForm = reactive({
     role: '',
     location: '',
     description: '',
+    address: '',
     resume_link: '',
     years_experience: 0,
     award_count: 0,
@@ -127,6 +128,7 @@ function openEditModal(about) {
         phone: about.phone,
         freelance: about.freelance,
         language: about.language,
+        address: about.address,
         image: null
     });
     editPreview.value = about.image_url;
@@ -213,8 +215,9 @@ function onFileChange(event, formRef, previewRef) {
                 <InputText v-model="addForm.name" placeholder="Name" required />
                 <InputText v-model="addForm.email" placeholder="Email" required />
                 <InputText v-model="addForm.phone" placeholder="Phone" required />
-                <InputText v-model="addForm.freelance" placeholder="Freelance" required />
-                <InputText v-model="addForm.language" placeholder="Language" required />
+                <InputText v-model="addForm.freelance" placeholder="Freelance"  />
+                <InputText v-model="addForm.language" placeholder="Language"  />
+                <InputText v-model="addForm.address" placeholder="address"  />
                 <InputText v-model="addForm.role" placeholder="Role" />
                 <InputText v-model="addForm.location" placeholder="Location" />
                 <InputText v-model="addForm.description" placeholder="Description" rows="4" />
@@ -236,6 +239,7 @@ function onFileChange(event, formRef, previewRef) {
                 <InputText v-model="editForm.email" placeholder="Email" required />
                 <InputText v-model="editForm.phone" placeholder="Phone" required />
                 <InputText v-model="editForm.freelance" placeholder="Freelance" required />
+                <InputText v-model="editForm.address" placeholder="address"  />
                 <InputText v-model="editForm.language" placeholder="language" required />
                 <InputText v-model="editForm.role" placeholder="Role" />
                 <InputText v-model="editForm.location" placeholder="Location" />

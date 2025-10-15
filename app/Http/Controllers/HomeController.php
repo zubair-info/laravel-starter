@@ -6,6 +6,8 @@ use App\Models\About;
 use App\Models\Education;
 use App\Models\Experience;
 use App\Models\HeroSection;
+use App\Models\Portfolio;
+use App\Models\Pricing;
 use App\Models\Service;
 use App\Models\Skill;
 use App\Models\Specialty;
@@ -24,6 +26,8 @@ class HomeController extends Controller
         $skills = Skill::all();
         $educations = Education::all();
         $experiences = Experience::all();
+        $portfolios = Portfolio::with('service')->get();
+        $pricing = Pricing::get();
 
         return Inertia::render('frontend/Home', [
             'logo' => asset('assets/images/logo/logo.png'),
@@ -48,6 +52,50 @@ class HomeController extends Controller
             'skills' => $skills,
             'educations' => $educations,
             'experiences' => $experiences,
+            'portfolios' => $portfolios,
+            'pricing' => $pricing,
+        ]);
+    }
+    public function contact()
+    {
+        $about = About::first();
+        return Inertia::render('frontend/Contact', [
+            'logo' => asset('assets/images/logo/logo.png'),
+            'offcanvasLogo' => asset('assets/images/logo/offcanvas-logo.png'),
+            'headerMenu' => [
+                ['label' => 'Home', 'url' => route('home')],
+                // ['label' => 'About', 'url' => route('about')],
+                // ['label' => 'Projects', 'url' => route('projects')],
+                // ['label' => 'Blog', 'url' => route('blog')],
+                // ['label' => 'Contact', 'url' => route('contact')],
+            ],
+            'socialLinks' => [
+                ['icon' => 'linkedin', 'url' => 'https://linkedin.com'],
+                ['icon' => 'facebook', 'url' => 'https://facebook.com'],
+                ['icon' => 'twitter', 'url' => 'https://twitter.com'],
+                ['icon' => 'github', 'url' => 'https://github.com'],
+            ],
+            'about' => $about,
+
+        ]);
+    }
+    public function projects_details($slug)
+    {
+        $project = Portfolio::where('slug', $slug)->first();
+         $about = About::first();
+        return Inertia::render('frontend/ProjectsDetails', [
+            'logo' => asset('assets/images/logo/logo.png'),
+            'offcanvasLogo' => asset('assets/images/logo/offcanvas-logo.png'),
+            'headerMenu' => [
+                ['label' => 'Home', 'url' => route('home')],
+                // ['label' => 'About', 'url' => route('about')],
+                // ['label' => 'Projects', 'url' => route('projects')],
+                // ['label' => 'Blog', 'url' => route('blog')],
+                // ['label' => 'Contact', 'url' => route('contact')],
+            ],
+            'project' => $project,
+            'about' => $about,
+
         ]);
     }
 }

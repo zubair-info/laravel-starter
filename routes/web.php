@@ -20,7 +20,9 @@ use Inertia\Inertia;
 // Route::get('/', function () {
 //     return Inertia::render('Welcome');
 // })->name('home');
- Route::get('/', [HomeController::class, 'index'])->name('home');;
+Route::get('/', [HomeController::class, 'index'])->name('home');;
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/projects-details/{slug}', [HomeController::class, 'projects_details'])->name('projects_details');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 

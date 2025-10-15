@@ -25,6 +25,7 @@ class About extends Model implements HasMedia
         'years_experience',
         'award_count',
         'client_count',
+        'address',
     ];
 
     protected $appends = ['image_url'];

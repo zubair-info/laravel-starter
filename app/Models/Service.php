@@ -24,4 +24,8 @@ class Service extends Model implements HasMedia
     {
         return $this->getFirstMediaUrl('service_icons');
     }
+    public function portfolios()
+    {
+        return $this->hasMany(Portfolio::class);
+    }
 }

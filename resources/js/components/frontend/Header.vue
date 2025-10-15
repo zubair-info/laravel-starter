@@ -3,16 +3,17 @@
         <div class="flex pl-4 xl:pl-0">
 
             <div class="flex-1 flex items-center justify-between border-b border-black-800 border-opacity-40">
-                <a :href="route('home')">
+                <Link :href="route('home')">
                     <img :src="logo" alt="logo" />
-                </a>
+                </Link>
 
-                <a href="/contact" class="flex items-center py-1 px-3 font-bold text-active hover:text-orange group">
+
+                <Link :href="route('contact')" class="flex items-center py-1 px-3 font-bold text-active hover:text-orange group">
                     Let’s Talk
                     <span class="inline-block ml-3 group-hover:animate-arrow-move-up">
                         <ArrowUpRight />
                     </span>
-                </a>
+                </Link>
             </div>
 
             <div id="offcanvas-toggle"
@@ -27,8 +28,10 @@
 </template>
 
 <script setup>
+import { Link } from '@inertiajs/vue3';
 import { Menu, ArrowUpRight } from 'lucide-vue-next'
 import { route } from 'ziggy-js'
+
 
 const props = defineProps({
     logo: String,

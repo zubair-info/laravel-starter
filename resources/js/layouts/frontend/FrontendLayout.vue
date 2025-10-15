@@ -7,6 +7,10 @@ import { Head } from '@inertiajs/inertia-vue3'
     <Head title="My Portfolio">
         <meta name="description" content="test" />
     </Head>
+
+    <Header :logo="logo" @toggle-offcanvas="showMenu = !showMenu" />
+    <OffcanvasMenu :show="showMenu" :menu="headerMenu" :social-links="socialLinks" :offcanvas-logo="offcanvasLogo"
+        @close="showMenu = false" />
     <div>
         <main class="min-h-screen">
             <slot />

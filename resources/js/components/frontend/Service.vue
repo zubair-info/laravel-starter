@@ -37,7 +37,7 @@
                             <h4>
                                 <a :href="service.link"
                                     class="flex flex-wrap items-end justify-between font-bold text-xl font-Syne text-black-800 group-hover:text-orange transition-all">
-                                  {{ service.title }}
+                                    {{ service.title }}
 
                                     <span
                                         class="text-black-text-600 group-hover:text-orange group-hover:animate-arrow-move-up">
@@ -64,15 +64,15 @@
                     <div
                         class="px-6 py-9 bg-black-800 rounded-lg flex flex-wrap flex-col justify-between max-w-[416px] mx-auto h-full group">
                         <div class="flex flex-wrap justify-end relative">
-                            <a href="contact.html" class="group-hover:animate-arrow-move-up">
-                                <svg width="80" height="80" viewBox="0 0 80 80" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M23.3333 56.6666L56.6667 23.3333" stroke="#FFB646" stroke-width="3.5"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M23.3333 23.3333H56.6667V56.6666" stroke="#FFB646" stroke-width="3.5"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </a>
+                            <Link :href="route('contact')" class="group-hover:animate-arrow-move-up">
+                            <svg width="80" height="80" viewBox="0 0 80 80" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.3333 56.6666L56.6667 23.3333" stroke="#FFB646" stroke-width="3.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M23.3333 23.3333H56.6667V56.6666" stroke="#FFB646" stroke-width="3.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            </Link>
                         </div>
 
                         <div class="flex flex-col flex-wrap gap-y-2">
@@ -91,7 +91,9 @@
 
 <script setup>
 
-import { usePage } from '@inertiajs/vue3'
+import { usePage, Link } from '@inertiajs/vue3'
+import { route } from 'ziggy-js'
+
 
 const { props } = usePage()
 const services = props.services

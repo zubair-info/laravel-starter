@@ -16,7 +16,7 @@
                         </span>
 
                         {{ hero?.greeting_text }}
-                        <img class="ml-2" src="assets/images/icon/victory.png" alt="icon">
+                        <!-- <img class="ml-2" src="assets/images/icon/victory.png" alt="icon"> -->
                     </span>
                     <h1 class="relative z-[1] font-Syne text-black-800 font-bold text-[80px] lg:text-[100px] xl:text-[120px] 2xl:text-[140px] leading-[64px] lg:leading-[80px] xl:leading-[90px] 2xl:leading-[110px] 2xl:before:w-[120px] xl:before:w-[100px] 2xl:before:h-[120px] xl:before:h-[100px] before:rounded-full before:bg-primary before:block before:absolute before:top-[0px] before:left-0 before:-z-[1] lg:before:w-[85px] lg:before:h-[85px] before:w-[70px] before:h-[70px]"
                         data-aos="fade-right" data-aos-delay="400">
@@ -33,7 +33,7 @@
                     <div class="flex flex-wrap mb-[50px] md:mb-[60px] xl:mb-[70px] 2xl:mb-[80px]">
                         <!-- Link Start -->
                         <span data-aos="fade-right" data-aos-delay="1000">
-                            <a href="contact.html" class="flex items-center flex-wrap btn-primary mr-2 group">{{ hero?.primary_button_text }}
+                           <Link :href="route('contact')" class="flex items-center flex-wrap btn-primary mr-2 group">{{ hero?.primary_button_text }}
                                 <span class="inline-block ml-3 group-hover:animate-arrow-move-up">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -43,13 +43,13 @@
                                             stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </span>
-                            </a>
+                            </Link>
                         </span>
                         <!-- Link End -->
 
                         <!-- Link Start -->
                         <span data-aos="fade-right" data-aos-delay="1200">
-                            <a href="projects.html" class="flex items-center flex-wrap btn-primary-outline group">
+                            <Link :href="route('contact')" class="flex items-center flex-wrap btn-primary-outline group">
                                {{ hero?.primary_button_text }}
                                 <span class="inline-block ml-3 group-hover:animate-arrow-move-up">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -60,7 +60,7 @@
                                             stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </span>
-                            </a>
+                            </Link>
                         </span>
                         <!-- Link End -->
                     </div>
@@ -120,7 +120,7 @@
             <img class="absolute top-0 right-0 md:max-w-[420px] lg:max-w-[570px] xl:max-w-[650px] 2xl:max-w-[initial]"
                 data-aos="fade-left" :src="hero.image_url" alt="hero Image">
 
-            <a href="contact.html">
+           <Link :href="route('contact')">
                 <svg class="absolute bottom-[200px] lg:bottom-[80px] xl:bottom-[80px] right-[40px] lg:right-[150px] xl:right-[150px]"
                     width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g class="animate-spin origin-center">
@@ -198,7 +198,7 @@
                             fill="#080808" fill-opacity="0.9" />
                     </g>
                 </svg>
-            </a>
+            </Link>
 
         </div>
     </section>
@@ -207,7 +207,9 @@
 
 <script setup>
 
-import { usePage } from '@inertiajs/vue3'
+import { usePage,Link } from '@inertiajs/vue3'
+import { route } from 'ziggy-js'
+
 
 const { props } = usePage()
 const hero = props.hero
